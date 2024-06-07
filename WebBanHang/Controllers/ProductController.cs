@@ -38,8 +38,8 @@ namespace WebBanHang.Controllers
             ViewBag.pageSum = pageSum;
             ViewBag.pageIndex = pageIndex;
 
-            //return View(productList.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList());
-            return View("ShowAll");
+            return View(productList.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList());
+            //return View("ShowAll");
         }
         //Hiển thị form thêm sản phẩm
         public IActionResult Add()

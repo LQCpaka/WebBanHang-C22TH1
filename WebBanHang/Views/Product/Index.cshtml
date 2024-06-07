@@ -52,6 +52,9 @@
 		<li class="page-item @(ViewBag.Pageindex==1? "Disabled":"")" />
 			<a class="page-link" asp-action="Index" asp-route-page="1">&laquo;</a>
 		<li>
-
+			@for(var i =1; i <= ViewBag.PageSum; i++)
+			{
+				<li
+			}
 	</ul>
 </div> *@

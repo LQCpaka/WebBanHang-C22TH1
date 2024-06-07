@@ -1,0 +1,22 @@
+﻿@if (TempData["success"] != null)
+{
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		Swal.fire({
+		title: "@TempData["success"]",
+		text: "You clicked the button!",
+		icon: "success"
+		});
+	</script>
+}
+@if (TempData["error"] != null)
+{
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		Swal.fire({
+		title: "@TempData["error"]",
+		text: "You clicked the button!",
+		icon: "error"
+		});
+	</script>
+}

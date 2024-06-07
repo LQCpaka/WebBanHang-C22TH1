@@ -1,0 +1,45 @@
+﻿@model WebBanHang.Models.Product
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<h2>Add Product</h2>
+<hr />
+<form asp-action="Add" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group pb-2">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label asp-for="CategoryId"></label>
+                <select asp-for="CategoryId" asp-items="@ViewBag.CategoryList" class="form-control">
+                    <option disabled selected>==Select category==</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group pb-2">
+                <label asp-for="ImageUrl"></label>
+                <input asp-for="ImageUrl" type="file" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

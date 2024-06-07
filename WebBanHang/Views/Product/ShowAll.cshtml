@@ -1,0 +1,63 @@
+﻿<h2>
+	List Product
+</h2>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2>LIST PRODUCT</h2>
+    </div>
+    <div class="col-md-6 text-right">
+        <a asp-action="Add" class="btn btn-primary">
+            <i class="bi bi-plus-circle-fill"></i> Add New
+        </a>
+    </div>
+</div>
+<table id="myTable" class="display">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Giá</th>
+            <th>Thể Loại</th>
+            <th>Hình</th>
+            <th>Thao Tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+
+@section Script{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Product/GetAll",
+                success: function (data) {
+                    $('#myTable').DataTable{
+                        data: data,
+                            column: [
+                                { data: 'name' },
+                                { data: 'price' },
+                                { data: 'category,name' },
+                                { 
+                                    data: 'imageUrl', render: function (data){
+                                        if (data != null)
+                                            return '<img src="' + data + '" style="width:100px">'
+                                        else
+                                            return '';
+                                    },
+                                    {
+                                        data: 'id', render: function (data) {
+                                            let link = '<a href=/Product/Update/' + data +  'class="btn btn-success"> <i class= "bi bi-pencil-square"></i>Edit</a>'
+                                            let link = '<a href=/Product/Update/' + data + 'class="btn btn-success"> <i class= "bi bi-trash"></i>Delete</a>'
+                                            return link;
+                                        }
+                                    }
+                                },
+                                { data: 'decription' },
+                            ]
+                    }
+                }
+            })
+        })
+    </script>
+}

@@ -1,0 +1,110 @@
+﻿@model Order
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-8 mb-4">
+                <div class="card mb-4 border shadow-0">
+                    <div class="p-4 d-flex justify-content-between">
+                        <div class="">
+                            <h5>Have an account?</h5>
+                            <p class="mb-0 text-wrap ">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center flex-column flex-md-row">
+                            <a href="#" class="btn btn-outline-primary me-0 me-md-2 mb-2 mb-md-0 w-100">Register</a>
+                            <a href="#" class="btn btn-primary shadow-0 text-nowrap w-100">Sign in</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Checkout -->
+                <form asp-action="ProcessOrder" method="post">
+                <div class="card shadow-0 border">
+                    <div class="p-4">
+                        <h5 class="card-title mb-3">Guest checkout</h5>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <p class="mb-0">Full name</p>
+                                <div class="form-outline">
+                                    <input type="text" asp-for="CustomerName" placeholder="Enter customer name" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="CustomerName"></span>
+                                </div>
+                            </div>     
+
+                            <div class="col-6 mb-3">
+                                <p class="mb-0">Phone</p>
+                                <div class="form-outline">
+                                    <input type="text" asp-for="Phone" value="" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="Phone"></span>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <p class="mb-0">Address</p>
+                                <div class="form-outline">
+                                    <input type="text" asp-for="Address" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="Address"></span>
+                                </div>
+                            </div>
+                        </div>                
+
+                        <div class="float-end">
+                            <button class="btn btn-light border">Cancel</button>
+                            <button type="submit" class="btn btn-success shadow-0 border">Continue</button>
+                        </div>
+                    </div>
+                 </div>
+                </form>
+                <!-- Checkout -->
+            </div>
+            @{ 
+                var cart = (Cart)ViewBag.CART;
+            }
+            <div class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
+                <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
+                    <h6 class="mb-3">Summary</h6>
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Total price:</p>
+                        <p class="mb-2">@string.Format("${0:#,##0}",cart.Total)</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Discount:</p>
+                        <p class="mb-2 text-danger">- $0</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Shipping cost:</p>
+                        <p class="mb-2">+ $0</p>
+                    </div>
+                    <hr />
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Total price:</p>
+                        <p class="mb-2 fw-bold">@string.Format("${0:#,##0}", cart.Total)</p>
+                    </div>                  
+
+                    <hr />
+                    <h6 class="text-dark my-4">Items in cart</h6>
+                    @foreach (var item in cart.Items)
+                    {
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <span class="position-absolute top-0 start-100 translate-middle badge bg-dark text-white ms-1 rounded-pill">
+                                @item.Quantity
+                            </span>
+                            <img src="/@item.Product.ImageUrl" style="height: 96px; width: 96px;" class="img-sm rounded border" />
+                        </div>
+                        <div class="">
+                            <a href="#" class="nav-link">
+                                @item.Product.Name <br />                                
+                            </a>
+                            <div class="price text-muted">Total: @(item.Quantity*item.Product.Price)</div>
+                        </div>
+                    </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+   <partial name="_ValidationScriptsPartial" />
+}

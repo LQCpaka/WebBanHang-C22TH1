@@ -1,31 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebBanHang.Models;
 
-namespace WebBanHang.Areas.Admin.Controllers
+namespace WebBanHang.Controllers
 {
+    [Area("Admin")]
+    
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _db;
-
         public CategoryController(ApplicationDbContext db)
         {
             _db = db;
         }
-
+        //Hiển thị danh sách chủng loại
         public IActionResult Index()
         {
-            var categoryList = _db.Categories.ToList();
-            return View(categoryList);
+            var listCategory = _db.Categories.ToList();
+            return View(listCategory);
         }
+        //Hiển thị form thêm mới chủng loại
         public IActionResult Add()
         {
             return View();
         }
-
+        // Xử lý thêm chủng loại mới
         [HttpPost]
         public IActionResult Add(Category category)
         {
@@ -34,8 +37,6 @@ namespace WebBanHang.Areas.Admin.Controllers
                 //thêm category vào table Categories
                 _db.Categories.Add(category);
                 _db.SaveChanges();
-
-
                 TempData["success"] = "Category inserted success";
                 return RedirectToAction("Index");
             }
@@ -63,7 +64,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                 TempData["success"] = "Category updated success";
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(category);
         }
         //Hiển thị form xác nhận xóa chủng loại
         public IActionResult Delete(int id)

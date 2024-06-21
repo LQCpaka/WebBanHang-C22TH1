@@ -10,11 +10,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace WebBanHang
 {
-	public class Startup
-	{
+    public class Startup
+    {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,11 +29,23 @@ namespace WebBanHang
         {
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("name=DefaultConnection"));
-            services.AddDistributedMemoryCache();
+
+            //services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDefaultIdentity<ApplicationUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            services.AddRazorPages();
+        
             services.AddSession();
+            services.AddScoped<IEmailSender, EmailSender>();
+
+            //services.ConfigureApplicationCookie(option =>
+            //{
+            //    option.LoginPath =
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -46,18 +60,22 @@ namespace WebBanHang
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
-            app.UseSession();
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
+
+                endpoints.MapRazorPages();
+
                 endpoints.MapControllerRoute(
-                    name: "areas",
-                    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+                     name: "Areas",
+                     pattern: "{area=customer}/{controller=Home}/{action=Index}/{id?}");
+
             });
         }
+
     }
 }

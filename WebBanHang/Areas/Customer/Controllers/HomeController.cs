@@ -11,21 +11,22 @@ using WebBanHang.Models;
 
 namespace WebBanHang.Controllers
 {
-	public class HomeController : Controller
-	{
-		private readonly ILogger<HomeController> _logger;
-		private readonly ApplicationDbContext _db;
-		public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
-		{
-			_logger = logger;
-			_db = db;
-		}
-		//hien thi danh sach tat ca san pham       
-		public IActionResult Index()
-		{
-			var productlist = _db.Products.ToList();
-			return View(productlist);
-
-		}
-	}
+    [Area("Customer")]
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _db;        
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
+        {
+            _logger = logger;
+            _db = db;           
+        }
+        //hien thi danh sach tat ca san pham       
+        public IActionResult Index()
+        {
+            var productlist = _db.Products.ToList();
+            return View(productlist);           
+           
+        }     
+    }
 }

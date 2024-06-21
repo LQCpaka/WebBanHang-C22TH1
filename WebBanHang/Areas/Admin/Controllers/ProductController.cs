@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,8 @@ using WebBanHang.Models;
 
 namespace WebBanHang.Controllers
 {
+    [Area("Admin")]
+    
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -22,25 +25,25 @@ namespace WebBanHang.Controllers
             _hosting = hosting;
         }
         //Hiển thị danh sách sản phẩm cần quản lý
-        public IActionResult Index(int? page, string textsearch = "")
+        public IActionResult Index(int ?page, string textsearch="")
         {
             var pageIndex = (int)(page != null ? page : 1);
             var pageSize = 10;
 
-            var dsSanPham = _db.Products.Include(x => x.Category).Where(p => p.Name.ToLower().Contains(textsearch.ToLower())).ToList();
+            var dsSanPham = _db.Products.Include(x => x.Category).Where(p=>p.Name.ToLower().Contains(textsearch.ToLower())).ToList();
             //thống kê số trang
             var pageSum = dsSanPham.Count() / pageSize + (dsSanPham.Count() % pageSize > 0 ? 1 : 0);
             //truyen du lieu cho View
             ViewBag.PageSum = pageSum;
             ViewBag.PageIndex = pageIndex;
             return View(dsSanPham.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList());
-            // return View("ShowAll");
+           // return View("ShowAll");
         }
 
         //Hiển thị giao diện thêm sản phẩm
         public IActionResult Add()
         {
-            ViewBag.CategoryList = _db.Categories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name });
+            ViewBag.CategoryList = _db.Categories.Select(c=> new SelectListItem { Value = c.Id.ToString(), Text=c.Name});
             return View();
         }
         //xử lý thêm mới sản phẩm

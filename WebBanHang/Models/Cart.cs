@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 namespace WebBanHang.Models
 {
     //lớp biểu diễn 1 phần tử của giỏ hàng
-    public class CartItem
-    {
+    public class CartItem {
 
         public Product Product { get; set; }
         public int Quantity { get; set; }
@@ -23,10 +22,11 @@ namespace WebBanHang.Models
         }
 
         public List<CartItem> Items { get { return _items; } }
-        /*-----------------cac phuong thuc xu ly tren Giỏ hàng-------------------------------------*/
+        //--------cac phuong thuc xu ly tren Giỏ hàng-----------
+        //phuong thuc them 1 san pham vào giỏ
         public void Add(Product p, int qty)
         {
-            var item = _items.FirstOrDefault(x => x.Product.Id == p.Id);
+            var item = _items.FirstOrDefault(x => x.Product.Id ==p.Id);
             if (item == null) //chưa có
             {
                 _items.Add(new CartItem { Product = p, Quantity = qty });
@@ -62,22 +62,18 @@ namespace WebBanHang.Models
             }
         }
         //tính tổng thành tiền
-        public double Total
-        {
-            get
-            {
-                double total = _items.Sum(x => x.Quantity * x.Product.Price);
+        public double Total {
+            get {
+                double total = _items.Sum(x =>x.Quantity * x.Product.Price);
                 return total;
             }
         }
         //tính tổng số lượng sản phẩm
-        public double Quantity
-        {
-            get
-            {
-                double total = _items.Sum(x => x.Quantity);
+         public double Quantity {
+            get {
+                double total = _items.Sum(x =>x.Quantity);
                 return total;
             }
-        }
-    }
+        }  
+    }    
 }

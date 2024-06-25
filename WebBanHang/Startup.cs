@@ -38,10 +38,12 @@ namespace WebBanHang
             services.AddSession();
             services.AddScoped<IEmailSender, EmailSender>();
 
-            //services.ConfigureApplicationCookie(option =>
-            //{
-            //    option.LoginPath =
-            //});
+            services.ConfigureApplicationCookie(option =>
+            {
+                option.LoginPath = "/Identity/Account/Login";
+                option.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                option.LogoutPath = "//Identity/Account/Logout";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
